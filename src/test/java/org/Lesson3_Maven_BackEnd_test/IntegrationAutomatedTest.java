@@ -1,15 +1,22 @@
 package org.Lesson3_Maven_BackEnd_test;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
 
 public class IntegrationAutomatedTest extends Initializalization{
 
+
     @Test
-    void mealPlanTest() {
+    @Tag("Positive")
+    @DisplayName("POST. Add to Shopping List")
+    void mealPlanTest() throws IOException {
         String id = given()
-                .queryParam("hash", getApiHash())
+                .queryParam("hash", getHash())
                 .queryParam("apiKey", getApiKey())
                 .body("{\n"
                         + " \"date\": 1589500800,\n"
@@ -24,7 +31,7 @@ public class IntegrationAutomatedTest extends Initializalization{
                         + " }\n"
                         + "}")
                 .when()
-                .post("https://api.spoonacular.com/mealplanner/Vladimir1990/items/")
+                .post(getURL() + "/mealplanner/" + getUserName() + "/items")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -33,11 +40,6 @@ public class IntegrationAutomatedTest extends Initializalization{
                 .get("id")
                 .toString();
 
-        given()
-                .queryParam("hash", getApiHash())
-                .queryParam("apiKey", getApiKey())
-                .delete("https://api.spoonacular.com/mealplanner/Vladimir1990/items/" + id)
-                .then()
-                .statusCode(200);
+        tearDown(getURL() + "/mealplanner/" + getUserName() + "/items/" + id);
     }
 }
