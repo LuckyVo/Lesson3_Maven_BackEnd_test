@@ -1,16 +1,12 @@
 package org.Lesson3_Maven_BackEnd_test;
 
-import io.qameta.allure.restassured.AllureRestAssured;
-import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
-import org.junit.jupiter.api.BeforeAll;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static io.restassured.RestAssured.given;
-
 
 public abstract class Initializalization {
 
@@ -22,11 +18,6 @@ public abstract class Initializalization {
         }
     }
 
-
-    @BeforeAll
-    static void beforeAll() {
-        RestAssured.filters(new AllureRestAssured());
-    }
 
     public static String getURL() throws IOException {
         loadProperties();
